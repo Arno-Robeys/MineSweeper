@@ -128,6 +128,8 @@ namespace Model.MineSweeper
         /// <param name="position">Position of the square to return.</param>
         /// <returns>square at <paramref name="position"/></returns>
         Square this[Vector2D position] { get; }
+
+        IEnumerable<IEnumerable<Square>> Select(Func<IEnumerable<Square>, IEnumerable<Square>> row);
     }
 
     internal abstract class Game : IGame

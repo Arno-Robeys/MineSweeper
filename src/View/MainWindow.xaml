@@ -3,18 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:View"
+        xmlns:local="clr-namespace:View" xmlns:converters="clr-namespace:View.converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <converters:SquareStatusConverter x:Key="squareStatusToEllipseFill" Uncovered="Transparant" Covered="Transparant" Flagged="Orange" Mine="Black" />
+        <converters:SquareStatusToVisibilityConverter x:Key="squareStatusToTextVisibility"/>
+    </Window.Resources>
     <Grid>
 
-        <ItemsControl x:Name="boardView" ItemsSource="{Binding Rows}">
+        <ItemsControl ItemsSource="{Binding Board.Rows}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <ItemsControl ItemsSource="{Binding}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Width="32" Height="32" Content="{Binding .}"/>
+                                <Button Width="32" Height="32">
+                                    <Grid>
+                                        <Ellipse Width="20" Height="20" Fill="{Binding Status, Converter={StaticResource squareStatusToEllipseFill}}" />
+                                        <TextBlock Text="{Binding NeighboringMineCount}" Visibility="{Binding Status, Converter={StaticResource squareStatusToTextVisibility}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>

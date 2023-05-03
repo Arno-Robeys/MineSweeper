@@ -129,5 +129,10 @@ namespace Model.MineSweeper
         {
             return string.Join( "\n", _board.Rows.Select( row => string.Join( "", row.Items.Select( square => square.ToString() ) ) ) );
         }
+
+        public IEnumerable<IEnumerable<Square>> Select(Func<IEnumerable<Square>, IEnumerable<Square>> row)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
