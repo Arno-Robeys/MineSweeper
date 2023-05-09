@@ -32,16 +32,24 @@ namespace ViewModel
             Rows = GetRows(this.board, game);
         }
 
-        private RowViewModel Row(IGameBoard board, int row, IGame game)
+        private static RowViewModel Row(IGameBoard board, int row, IGame game)
         {
-            //Maakt een rij van getallen van 0 tot breedte van het bord en gaat voor elk getal het juiste square object van bord komen opvragen
-            //De .Select geeft een IEnumerable van Square terug
-            return new RowViewModel(Enumerable.Range(0, board.Width).Select(i => new SquareViewModel(board[new Vector2D(i, row)], game)));
+        
+            return new RowViewModel(Enumerable.Range(0, board.Width).Select(i => {
+                Vector2D pos = new(i, row);
+                return new SquareViewModel(board[pos], game, pos);
+            }));
         }
-        private IEnumerable<RowViewModel> GetRows(IGameBoard board, IGame game)
+        private static IEnumerable<RowViewModel> GetRows(IGameBoard board, IGame game)
         {
-            //Exact hetzelfde als erboven alleen gebruikt het de method Row om de row te krijgen en zo een lijst te kunnen maken van rows
-            return Enumerable.Range(0, board.Height).Select(i => Row(board, i, game));
+            //Maakt een lijst van rijen van het bord en gaat voor elke rij het juiste square object van bord komen opvragen
+            //De .Select geeft een IEnumerable van Square terug
+            return Enumerable.Range(0, board.Height).Select(y => 
+                new RowViewModel(Enumerable.Range(0, board.Width).Select(x =>
+                {
+                    Vector2D pos = new(x, y);
+                    return new SquareViewModel(board[pos], game, pos);
+                })));
         }
     }
 
@@ -62,10 +70,10 @@ namespace ViewModel
 
         public ICommand Uncover { get; }
 
-        public SquareViewModel(Square square, IGame game)
+        public SquareViewModel(Square square, IGame game, Vector2D pos)
         {
             Square = square;
-            Uncover = new UncoverSquareCommand(game);
+            Uncover = new UncoverSquareCommand(game, pos);
         }
 
     }
@@ -73,9 +81,12 @@ namespace ViewModel
     public class UncoverSquareCommand : ICommand
     {
         public IGame Game { get; }
-        public UncoverSquareCommand(IGame game)
+
+        public Vector2D Position { get; }
+        public UncoverSquareCommand(IGame game, Vector2D pos)
         {
             Game = game;
+            Position = pos;
         }
         public event EventHandler? CanExecuteChanged;
 
@@ -86,7 +97,7 @@ namespace ViewModel
 
         public void Execute(object? parameter)
         {
-            Debug.WriteLine("Clickie");
+            Debug.WriteLine("Clickie op XY: " + Position.X + " - " + Position.Y);
         }
     }
 

@@ -20,7 +20,7 @@ namespace View.converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is SquareStatus status))
+            if (value is not SquareStatus status)
             {
                 return DependencyProperty.UnsetValue;
             }
@@ -45,7 +45,7 @@ namespace View.converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is SquareStatus status))
+            if (value is not SquareStatus status)
             {
                 return Visibility.Collapsed;
             }

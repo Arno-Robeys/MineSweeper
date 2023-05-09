@@ -35,7 +35,7 @@ namespace View
             game2 = game2.UncoverSquare(new Vector2D(0, 0));
             game2 = game2.UncoverSquare(new Vector2D(1, 1));
 
-            GameViewModel viewModel = new GameViewModel(game2);
+            GameViewModel viewModel = new(game2);
             DataContext = viewModel;
         }
 
