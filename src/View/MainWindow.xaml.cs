@@ -31,9 +31,6 @@ namespace View
             //Maakt nieuwe game
             var game = IGame.CreateRandom(10, 0.1);
             var game2 = IGame.Parse(new List<string> {".....",".**..",".....","...*.",".....",});            
-            game2 = game2.ToggleFlag(new Vector2D(3, 1));
-            game2 = game2.UncoverSquare(new Vector2D(0, 0));
-            game2 = game2.UncoverSquare(new Vector2D(1, 1));
 
             GameViewModel viewModel = new(game2);
             DataContext = viewModel;
