@@ -38,5 +38,6 @@ namespace View
             GameViewModel viewModel = new GameViewModel(game2);
             DataContext = viewModel;
         }
+
     }
 }
