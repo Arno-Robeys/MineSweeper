@@ -63,24 +63,28 @@ namespace ViewModel
 
         public ICommand Uncover { get; }
 
+        public ICommand ToggleFlag { get; }
+
         public SquareViewModel(ICell<IGame> game, Vector2D pos)
         {
             Square = game.Derive(g => g.Board[pos]);
             Uncover = new UncoverSquareCommand(game, pos);
+            ToggleFlag = new UncoverSquareCommand(game, pos, true);
         }
 
     }
 
     public class UncoverSquareCommand : ICommand
     {
-
+        private bool toggleFlag;
         private bool canExecute = true;
         public ICell<IGame> Game { get; }
         public Vector2D Position { get; }
-        public UncoverSquareCommand(ICell<IGame> game, Vector2D pos)
+        public UncoverSquareCommand(ICell<IGame> game, Vector2D pos, bool toggleFlag = false)
         {
             Game = game;
             Position = pos;
+            this.toggleFlag = toggleFlag;
         }
         public event EventHandler? CanExecuteChanged;
 
@@ -91,17 +95,20 @@ namespace ViewModel
 
         public void Execute(object? parameter)
         {
-            if(Game.Value.Status != GameStatus.InProgress)
+            if(Game.Value.Status != GameStatus.InProgress || !Game.Value.IsSquareCovered(Position) || Game.Value.Flags.Contains(Position) && !toggleFlag)
+            {
+                canExecute = false; 
                 return;
+            }
 
-            Game.Value = Game.Value.UncoverSquare(Position);
+            Debug.WriteLine($"Uncovering square at {Position}");
+            Game.Value = toggleFlag ? Game.Value.ToggleFlag(Position) : Game.Value.UncoverSquare(Position);
             OnCanExecuteChanged();
-            Debug.WriteLine("Clickie op XY: " + Position.X + " - " + Position.Y);
         }
 
         public void OnCanExecuteChanged()
         {
-            canExecute = false;
+            //canExecute = false;
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 

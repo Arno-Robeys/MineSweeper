@@ -1,4 +1,5 @@
-﻿using Model.Data;
+﻿using Cells;
+using Model.Data;
 using Model.MineSweeper;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using View.screens;
 using ViewModel;
 
 namespace View
@@ -28,13 +30,95 @@ namespace View
         {
             InitializeComponent();
 
-            //Maakt nieuwe game
-            var game = IGame.CreateRandom(10, 0.1);
-            var game2 = IGame.Parse(new List<string> {".....",".**..",".....","...*.",".....",});            
-
-            GameViewModel viewModel = new(game2);
-            DataContext = viewModel;
+            this.DataContext = new MainViewModel();
         }
 
+    }
+
+    public class MainViewModel
+    {
+        public MainViewModel()
+        {
+            CurrentScreen = Cell.Create<ScreenViewModel>(null);
+
+            var firstscreen = new HomeViewModel(CurrentScreen);
+
+            CurrentScreen.Value = firstscreen;
+
+        }
+
+        public ICell<ScreenViewModel> CurrentScreen { get; }
+    }
+
+    public abstract class ScreenViewModel
+    {
+        protected ICell<ScreenViewModel> CurrentScreen { get; }
+        protected ScreenViewModel(ICell<ScreenViewModel> screen)
+        {
+            this.CurrentScreen = screen;
+        }
+    }
+
+    public class HomeViewModel : ScreenViewModel
+    {
+        public HomeViewModel(ICell<ScreenViewModel> screen) : base(screen)
+        {
+            StartGame = new ActionCommand(() => CurrentScreen.Value = new MineSweeperViewModel(screen));
+
+            Settings = new ActionCommand(() => CurrentScreen.Value = new SettingsViewModel(screen));
+        }
+        public ICommand StartGame { get; }
+
+        public ICommand Settings { get; }
+    }
+
+    public class SettingsViewModel : ScreenViewModel
+    {
+        public SettingsViewModel(ICell<ScreenViewModel> screen) : base(screen)
+        {
+            Home = new ActionCommand(() => CurrentScreen.Value = new HomeViewModel(screen));
+
+            StartGame = new ActionCommand(() => CurrentScreen.Value = new MineSweeperViewModel(screen));
+        }
+        public ICommand Home { get; }
+
+        public ICommand StartGame { get; }
+
+    }
+
+    public class MineSweeperViewModel : ScreenViewModel
+    {
+        public MineSweeperViewModel(ICell<ScreenViewModel> screen) : base(screen)
+        {
+            Home = new ActionCommand(() => CurrentScreen.Value = new HomeViewModel(screen));
+
+            Settings = new ActionCommand(() => CurrentScreen.Value = new SettingsViewModel(screen));
+        }
+        public ICommand Home { get; }
+
+        public ICommand Settings { get; }
+
+    }
+
+    public class ActionCommand : ICommand
+    {
+        private readonly Action action;
+
+        public ActionCommand(Action action)
+        {
+            this.action = action;
+        }
+
+        public event EventHandler CanExecuteChanged { add { } remove { } }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            this.action();
+        }
     }
 }

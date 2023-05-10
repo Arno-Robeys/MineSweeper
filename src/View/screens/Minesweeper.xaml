@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="View.screens.Minesweeper"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:View.screens" xmlns:converters="clr-namespace:View.converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:SquareStatusConverter x:Key="squareStatusToEllipseFill" Uncovered="Transparent" Covered="Transparent" Flagged="Orange" Mine="Black" />
+        <converters:SquareStatusToVisibilityConverter x:Key="squareStatusToTextVisibility"/>
+    </UserControl.Resources>
+    <Grid>
+        <ItemsControl ItemsSource="{Binding Board.Rows}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ItemsControl ItemsSource="{Binding Squares}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Width="32" Height="32" Command="{Binding Uncover}">
+                                    <Button.InputBindings>
+                                        <MouseBinding Gesture="RightClick" Command="{Binding ToggleFlag}"/>
+                                    </Button.InputBindings>
+                                    <Grid>
+                                        <Ellipse Width="20" Height="20" Fill="{Binding Status.Value, Converter={StaticResource squareStatusToEllipseFill}}" />
+                                        <TextBlock Text="{Binding NeighboringMineCount.Value}" Visibility="{Binding Status.Value, Converter={StaticResource squareStatusToTextVisibility}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>
