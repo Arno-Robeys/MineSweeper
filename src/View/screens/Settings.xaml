@@ -10,21 +10,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Text="Board Size:" FontWeight="Bold" VerticalAlignment="Center"/>
-            <Slider TickFrequency="1" IsSnapToTickEnabled="True" Width="200" Margin="10,0,0,0"/>
-            <TextBlock Text="{Binding ElementName=BoardSizeSlider, Path=Value}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+            <Slider Name="SliderBoardSize" TickFrequency="1" ValueChanged="SliderBoardSize_ValueChanged" IsSnapToTickEnabled="True" Width="672" Margin="10,0,0,0"/>
+            <TextBlock Text="{Binding Value, ElementName=SliderBoardSize}"/>
         </StackPanel>
-
-        <!-- Test Text -->
-        <TextBlock Grid.Row="1" Text="Test" FontSize="16" Margin="0,0,0,10"/>
-
-        <!-- Enable Flooding Checkbox -->
         <CheckBox Grid.Row="2" Content="Enable Flooding" FontSize="16" Margin="0,0,0,10"/>
 
         <Button Grid.Row="4" Content="Start Game" FontSize="20" FontWeight="Bold" Background="#2196F3" Foreground="White" Command="{Binding StartGame}" Padding="20,10" Margin="80,180,80,54"/>

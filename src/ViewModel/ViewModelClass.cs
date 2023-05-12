@@ -103,14 +103,18 @@ namespace ViewModel
 
             Debug.WriteLine($"Uncovering square at {Position}");
             Game.Value = toggleFlag ? Game.Value.ToggleFlag(Position) : Game.Value.UncoverSquare(Position);
-            OnCanExecuteChanged();
         }
+    }
 
-        public void OnCanExecuteChanged()
+    public static class SettingsSetViewModel
+    {
+        public static int BoardSize { get; set; } = 10;
+
+        public static bool Flooding { get; set; } = true;
+
+        public static GameViewModel CreateGame()
         {
-            //canExecute = false;
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            return new GameViewModel(IGame.CreateRandom(BoardSize, 0.1, Flooding));
         }
-
     }
 }

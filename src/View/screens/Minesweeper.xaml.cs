@@ -25,11 +25,12 @@ namespace View.screens
         public Minesweeper()
         {
             InitializeComponent();
-            var game = IGame.CreateRandom(10, 0.1);
-            var game2 = IGame.Parse(new List<string> { ".....", ".**..", ".....", "...*.", ".....", });
+            //var game = IGame.CreateRandom(10, 0.1);
+            //var game2 = IGame.Parse(new List<string> { ".....", ".**..", ".....", "...*.", ".....", });
 
-            GameViewModel viewModel = new(game2);
-            this.DataContext = viewModel;
+            //GameViewModel viewModel = new(game2);
+           
+            this.DataContext = SettingsSetViewModel.CreateGame();
         }
     }
 }
