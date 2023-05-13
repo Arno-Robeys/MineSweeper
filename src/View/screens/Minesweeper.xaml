@@ -7,7 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converters:SquareStatusConverter x:Key="squareStatusToEllipseFill" Uncovered="Transparent" Covered="Transparent" Flagged="Orange" Mine="Black" />
+        <converters:SquareStatusConverter x:Key="squareStatusToEllipseFill">
+            <converters:SquareStatusConverter.Flagged>
+                <BitmapImage UriSource="/screens/img/flag.png" />
+            </converters:SquareStatusConverter.Flagged>
+            <converters:SquareStatusConverter.Mine>
+                <BitmapImage UriSource="/screens/img/bomb.png" />
+            </converters:SquareStatusConverter.Mine>
+        </converters:SquareStatusConverter>
         <converters:SquareStatusToVisibilityConverter x:Key="squareStatusToTextVisibility"/>
     </UserControl.Resources>
     <Grid>
@@ -22,7 +29,7 @@
                                         <MouseBinding Gesture="RightClick" Command="{Binding ToggleFlag}"/>
                                     </Button.InputBindings>
                                     <Grid>
-                                        <Ellipse Width="20" Height="20" Fill="{Binding Status.Value, Converter={StaticResource squareStatusToEllipseFill}}" />
+                                        <Image Width="20" Height="20" Source="{Binding Status.Value, Converter={StaticResource squareStatusToEllipseFill}}" />
                                         <TextBlock Text="{Binding NeighboringMineCount.Value}" Visibility="{Binding Status.Value, Converter={StaticResource squareStatusToTextVisibility}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </Grid>
                                 </Button>

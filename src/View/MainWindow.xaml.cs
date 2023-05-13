@@ -84,6 +84,22 @@ namespace View
 
         public ICommand StartGame { get; }
 
+        public static int MinimumSize
+        {
+            get
+            {
+                return IGame.MinimumBoardSize;
+            }
+        }
+
+        public static int MaximumSize
+        {
+            get
+            {
+                return IGame.MaximumBoardSize;
+            }
+        }
+
     }
 
     public class MineSweeperViewModel : ScreenViewModel

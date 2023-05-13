@@ -13,8 +13,6 @@ namespace View.converters
 {
     internal class SquareStatusConverter : IValueConverter
     {
-        public object Uncovered { get; set; }
-        public object Covered { get; set; }
         public object Flagged { get; set; }
         public object Mine { get; set; }
 
@@ -27,8 +25,6 @@ namespace View.converters
 
             return status switch
             {
-                SquareStatus.Uncovered => Uncovered,
-                SquareStatus.Covered => Covered,
                 SquareStatus.Flagged => Flagged,
                 SquareStatus.Mine => Mine,
                 _ => DependencyProperty.UnsetValue,

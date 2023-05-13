@@ -106,14 +106,15 @@ namespace ViewModel
         }
     }
 
-    public static class SettingsSetViewModel
+    public class SettingsSetViewModel
     {
-        public static int BoardSize { get; set; } = 10;
+        public static int BoardSize { get; set; } = IGame.MinimumBoardSize;
 
-        public static bool Flooding { get; set; } = true;
+        public static bool Flooding { get; set; } = false;
 
         public static GameViewModel CreateGame()
         {
+            Debug.WriteLine($"Creating game with board size {BoardSize} and flooding {Flooding}");
             return new GameViewModel(IGame.CreateRandom(BoardSize, 0.1, Flooding));
         }
     }

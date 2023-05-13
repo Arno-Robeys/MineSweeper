@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <None Remove="Minesweeper_1992.ico" />
+    <None Remove="screens\img\bomb.png" />
+    <None Remove="screens\img\flag.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +19,12 @@
 
   <ItemGroup>
     <Resource Include="Minesweeper_1992.ico" />
+    <Resource Include="screens\img\bomb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="screens\img\flag.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
