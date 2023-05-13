@@ -76,8 +76,7 @@ namespace ViewModel
 
     public class UncoverSquareCommand : ICommand
     {
-        private bool toggleFlag;
-        private bool canExecute = true;
+        private readonly bool toggleFlag;
         public ICell<IGame> Game { get; }
         public Vector2D Position { get; }
         public UncoverSquareCommand(ICell<IGame> game, Vector2D pos, bool toggleFlag = false)
@@ -90,32 +89,13 @@ namespace ViewModel
 
         public bool CanExecute(object? parameter)
         {
-            return canExecute;
+            return Game.Value.Status == GameStatus.InProgress && Game.Value.IsSquareCovered(Position) && (!Game.Value.Flags.Contains(Position) || toggleFlag);
         }
 
         public void Execute(object? parameter)
         {
-            if(Game.Value.Status != GameStatus.InProgress || !Game.Value.IsSquareCovered(Position) || Game.Value.Flags.Contains(Position) && !toggleFlag)
-            {
-                canExecute = false; 
-                return;
-            }
-
             Debug.WriteLine($"Uncovering square at {Position}");
             Game.Value = toggleFlag ? Game.Value.ToggleFlag(Position) : Game.Value.UncoverSquare(Position);
-        }
-    }
-
-    public class SettingsSetViewModel
-    {
-        public static int BoardSize { get; set; } = IGame.MinimumBoardSize;
-
-        public static bool Flooding { get; set; } = false;
-
-        public static GameViewModel CreateGame()
-        {
-            Debug.WriteLine($"Creating game with board size {BoardSize} and flooding {Flooding}");
-            return new GameViewModel(IGame.CreateRandom(BoardSize, 0.1, Flooding));
         }
     }
 }

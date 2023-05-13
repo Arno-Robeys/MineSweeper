@@ -4,19 +4,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:View" xmlns:screens="clr-namespace:View.screens"
+        xmlns:local="clr-namespace:View" xmlns:screens="clr-namespace:View.screens" xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
         Title="MineSweeper" Height="450" Width="800">
 
     <ContentControl Content="{Binding CurrentScreen.Value}" HorizontalAlignment="Left" Width="800">
         <ContentControl.Resources>
-            <DataTemplate DataType="{x:Type local:HomeViewModel}">
+            <DataTemplate DataType="{x:Type vm:HomeViewModel}">
                 <screens:Home />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:MineSweeperViewModel}">
+            <DataTemplate DataType="{x:Type vm:MineSweeperViewModel}">
                 <screens:Minesweeper />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type local:SettingsViewModel}">
+            <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
                 <screens:Settings />
             </DataTemplate>
         </ContentControl.Resources>

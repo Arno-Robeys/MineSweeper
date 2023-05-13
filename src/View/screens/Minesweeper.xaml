@@ -17,32 +17,39 @@
         </converters:SquareStatusConverter>
         <converters:SquareStatusToVisibilityConverter x:Key="squareStatusToTextVisibility"/>
     </UserControl.Resources>
-    <Grid>
-        <ItemsControl ItemsSource="{Binding Board.Rows}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <ItemsControl ItemsSource="{Binding Squares}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button Width="32" Height="32" Command="{Binding Uncover}">
-                                    <Button.InputBindings>
-                                        <MouseBinding Gesture="RightClick" Command="{Binding ToggleFlag}"/>
-                                    </Button.InputBindings>
-                                    <Grid>
-                                        <Image Width="20" Height="20" Source="{Binding Status.Value, Converter={StaticResource squareStatusToImage}}" />
-                                        <TextBlock Text="{Binding NeighboringMineCount.Value}" Visibility="{Binding Status.Value, Converter={StaticResource squareStatusToTextVisibility}, ConverterParameter={Binding NeighboringMineCount.Value}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    </Grid>
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+    <Viewbox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Timer" HorizontalAlignment="Center"/>
+            <ItemsControl Grid.Row="1"  ItemsSource="{Binding Board.Rows}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding Squares}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding Uncover}">
+                                        <Button.InputBindings>
+                                            <MouseBinding Gesture="RightClick" Command="{Binding ToggleFlag}"/>
+                                        </Button.InputBindings>
+                                        <Grid>
+                                            <Image Width="20" Height="20" Source="{Binding Status.Value, Converter={StaticResource squareStatusToImage}}" />
+                                            <TextBlock Text="{Binding NeighboringMineCount.Value}" Visibility="{Binding Status.Value, Converter={StaticResource squareStatusToTextVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Viewbox>
 </UserControl>

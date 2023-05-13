@@ -47,8 +47,6 @@ namespace View.converters
                 return Visibility.Collapsed;
             }
 
-            Debug.WriteLine($"Value: {value} , param: {parameter}, status {status}");
-
             return status == SquareStatus.Uncovered ? Visibility.Visible : Visibility.Collapsed;
         }
 

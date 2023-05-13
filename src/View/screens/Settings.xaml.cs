@@ -30,7 +30,8 @@ namespace View.screens
 
         private void SliderBoardSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            SettingsSetViewModel.BoardSize = (int)e.NewValue;
+            Debug.WriteLine($"SliderBoardSize_ValueChanged: {e.NewValue}");
+            SettingsViewModel.BoardSize = (int)e.NewValue;
         }
     }
 

@@ -7,8 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel>
-        <Button DockPanel.Dock="Top" Content="Start Game" Command="{Binding Settings}" />
-        <Button DockPanel.Dock="Top" Content="Start Game with standard setings" Command="{Binding StartGame}" />
+        <Button DockPanel.Dock="Top" Content="Start Custom Game" Command="{Binding Settings}" />
+        <Button DockPanel.Dock="Top" Content="Start Easy Game" Command="{Binding StartEasyGame}" />
+        <Button DockPanel.Dock="Top" Content="Start Medium Game" Command="{Binding StartMediumGame}" />
+        <Button DockPanel.Dock="Top" Content="Start Hard Game" Command="{Binding StartHardGame}" />
         <TextBlock FontSize="64" Text="Home" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
     </DockPanel>
 </UserControl>
