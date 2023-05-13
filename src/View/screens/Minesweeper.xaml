@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converters:SquareStatusConverter x:Key="squareStatusToEllipseFill">
+        <converters:SquareStatusConverter x:Key="squareStatusToImage">
             <converters:SquareStatusConverter.Flagged>
                 <BitmapImage UriSource="/screens/img/flag.png" />
             </converters:SquareStatusConverter.Flagged>
@@ -29,8 +29,8 @@
                                         <MouseBinding Gesture="RightClick" Command="{Binding ToggleFlag}"/>
                                     </Button.InputBindings>
                                     <Grid>
-                                        <Image Width="20" Height="20" Source="{Binding Status.Value, Converter={StaticResource squareStatusToEllipseFill}}" />
-                                        <TextBlock Text="{Binding NeighboringMineCount.Value}" Visibility="{Binding Status.Value, Converter={StaticResource squareStatusToTextVisibility}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <Image Width="20" Height="20" Source="{Binding Status.Value, Converter={StaticResource squareStatusToImage}}" />
+                                        <TextBlock Text="{Binding NeighboringMineCount.Value}" Visibility="{Binding Status.Value, Converter={StaticResource squareStatusToTextVisibility}, ConverterParameter={Binding NeighboringMineCount.Value}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </Grid>
                                 </Button>
                             </DataTemplate>

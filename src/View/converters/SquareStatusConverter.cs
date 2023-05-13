@@ -1,6 +1,7 @@
 ﻿using Model.MineSweeper;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,8 @@ namespace View.converters
             {
                 return Visibility.Collapsed;
             }
+
+            Debug.WriteLine($"Value: {value} , param: {parameter}, status {status}");
 
             return status == SquareStatus.Uncovered ? Visibility.Visible : Visibility.Collapsed;
         }

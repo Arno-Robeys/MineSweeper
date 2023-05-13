@@ -25,7 +25,6 @@ namespace View.screens
         public Minesweeper()
         {
             InitializeComponent();
-            //{Binding Status.Value, Converter={StaticResource squareStatusToEllipseFill}}
 
             this.DataContext = SettingsSetViewModel.CreateGame();
         }
