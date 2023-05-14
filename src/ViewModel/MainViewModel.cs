@@ -1,6 +1,5 @@
 ﻿using Cells;
 using Model.MineSweeper;
-using System.Diagnostics;
 using System.Windows.Input;
 
 namespace ViewModel
@@ -33,29 +32,24 @@ namespace ViewModel
     {
         public HomeViewModel(ICell<ScreenViewModel> screen) : base(screen)
         {
-            StartGame = new ActionCommand(() => CurrentScreen.Value = new MineSweeperViewModel(screen));
 
             Settings = new ActionCommand(() => CurrentScreen.Value = new SettingsViewModel(screen));
 
             StartEasyGame = new ActionCommand(() =>
             {
-                SettingsViewModel.BoardSize = 5;
-                CurrentScreen.Value = new MineSweeperViewModel(screen);
+                CurrentScreen.Value = new MineSweeperViewModel(screen, 5, true);
             });
 
             StartMediumGame = new ActionCommand(() =>
             {
-                SettingsViewModel.BoardSize = 10;
-                CurrentScreen.Value = new MineSweeperViewModel(screen);
+                CurrentScreen.Value = new MineSweeperViewModel(screen, 10, true);
             });
 
             StartHardGame = new ActionCommand(() =>
             {
-                SettingsViewModel.BoardSize = 20;
-                CurrentScreen.Value = new MineSweeperViewModel(screen);
+                CurrentScreen.Value = new MineSweeperViewModel(screen, 20, false);
             });
         }
-        public ICommand StartGame { get; }
 
         public ICommand Settings { get; }
 
@@ -72,15 +66,15 @@ namespace ViewModel
         {
             Home = new ActionCommand(() => CurrentScreen.Value = new HomeViewModel(screen));
 
-            StartGame = new ActionCommand(() => CurrentScreen.Value = new MineSweeperViewModel(screen));
+            StartGame = new ActionCommand(() => CurrentScreen.Value = new MineSweeperViewModel(screen, BoardSize, Flooding));
         }
         public ICommand Home { get; }
 
         public ICommand StartGame { get; }
 
-        public static int BoardSize { get; set; }
+        public static int BoardSize { get; set; } = IGame.MinimumBoardSize;
 
-        public static bool Flooding { get; set; } = false;
+        public bool Flooding { get; set; } = false;
 
         public static int MinimumSize
         {
@@ -98,18 +92,15 @@ namespace ViewModel
             }
         }
 
-        public static GameViewModel CreateGame()
-        {
-            Debug.WriteLine($"Creating game with board size {BoardSize} and flooding {Flooding}");
-            return new GameViewModel(IGame.CreateRandom(BoardSize, 0.1, Flooding));
-        }
-
     }
 
     public class MineSweeperViewModel : ScreenViewModel
     {
-        public MineSweeperViewModel(ICell<ScreenViewModel> screen) : base(screen)
+        public MineSweeperViewModel(ICell<ScreenViewModel> screen, int boardSize, bool flooding) : base(screen)
         {
+
+            GameMS = new GameViewModel(IGame.CreateRandom(boardSize, 0.1, flooding));
+
             Home = new ActionCommand(() => CurrentScreen.Value = new HomeViewModel(screen));
 
             Settings = new ActionCommand(() => CurrentScreen.Value = new SettingsViewModel(screen));
@@ -118,7 +109,7 @@ namespace ViewModel
 
         public ICommand Settings { get; }
 
-        public GameViewModel Game { get; } = SettingsViewModel.CreateGame();
+        public GameViewModel GameMS { get; }
 
     }
 

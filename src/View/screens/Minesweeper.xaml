@@ -14,6 +14,9 @@
             <converters:SquareStatusConverter.Mine>
                 <BitmapImage UriSource="/screens/img/bomb.png" />
             </converters:SquareStatusConverter.Mine>
+            <converters:SquareStatusConverter.Covered>
+                <BitmapImage UriSource="/screens/img/covered.png"/>
+            </converters:SquareStatusConverter.Covered>
         </converters:SquareStatusConverter>
         <converters:SquareStatusToVisibilityConverter x:Key="squareStatusToTextVisibility"/>
     </UserControl.Resources>
@@ -25,18 +28,18 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Timer" HorizontalAlignment="Center"/>
-            <ItemsControl Grid.Row="1"  ItemsSource="{Binding Game.Board.Rows}">
+            <ItemsControl Grid.Row="1"  ItemsSource="{Binding GameMS.Board.Rows}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <ItemsControl ItemsSource="{Binding Squares}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Command="{Binding Uncover}">
+                                    <Button Command="{Binding Uncover}" BorderThickness="0.2">
                                         <Button.InputBindings>
                                             <MouseBinding Gesture="RightClick" Command="{Binding ToggleFlag}"/>
                                         </Button.InputBindings>
                                         <Grid>
-                                            <Image Width="20" Height="20" Source="{Binding Status.Value, Converter={StaticResource squareStatusToImage}}" />
+                                            <Image Width="40" Height="40" Source="{Binding Status.Value, Converter={StaticResource squareStatusToImage}}"/>
                                             <TextBlock Text="{Binding NeighboringMineCount.Value}" Visibility="{Binding Status.Value, Converter={StaticResource squareStatusToTextVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Grid>
                                     </Button>
@@ -51,7 +54,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Grid.Row="2" Content="End Game" Margin="5,10,5,2"/>
+            <Button Grid.Row="2" Content="End Game" Command="{Binding Home}" Margin="5,10,5,2"/>
         </Grid>
     </Viewbox>
 </UserControl>

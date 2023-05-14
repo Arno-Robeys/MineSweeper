@@ -15,10 +15,10 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Text="Board Size:" FontWeight="Bold" VerticalAlignment="Center"/>
-            <Slider Name="SliderBoardSize" Minimum="{Binding MinimumSize}" Maximum="{Binding MaximumSize}" TickFrequency="1" ValueChanged="SliderBoardSize_ValueChanged" IsSnapToTickEnabled="True" Width="672" Margin="10,0,0,0"/>
+            <Slider Name="SliderBoardSize" Minimum="{Binding MinimumSize}" Maximum="{Binding MaximumSize}" TickFrequency="1" Value="{Binding BoardSize, Mode=TwoWay}" IsSnapToTickEnabled="True" Width="650" Margin="10,0,0,0"/>
             <TextBlock Text="{Binding Value, ElementName=SliderBoardSize}"/>
         </StackPanel>
-        <CheckBox Grid.Row="2" Content="Enable Flooding" FontSize="16" Margin="0,0,0,10"/>
+        <CheckBox Grid.Row="2" IsChecked="{Binding Flooding}" Content="Enable Flooding" FontSize="16" Margin="0,0,0,10"/>
 
         <Button Grid.Row="4" Content="Start Game" FontSize="20" FontWeight="Bold" Background="#2196F3" Foreground="White" Command="{Binding StartGame}" Padding="20,10" Margin="80,180,80,54"/>
     </Grid>

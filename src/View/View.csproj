@@ -10,7 +10,14 @@
   <ItemGroup>
     <None Remove="Minesweeper_1992.ico" />
     <None Remove="screens\img\bomb.png" />
+    <None Remove="screens\img\covered.png" />
     <None Remove="screens\img\flag.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="screens\img\covered.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

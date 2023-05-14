@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Model.MineSweeper;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using View;
 using ViewModel;
 
 namespace View.screens
@@ -28,10 +16,12 @@ namespace View.screens
             InitializeComponent();
         }
 
-        private void SliderBoardSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        public static readonly DependencyProperty BoardSizeProperty = DependencyProperty.Register("BoardSize", typeof(int), typeof(Settings));
+
+        public static int BoardSize
         {
-            Debug.WriteLine($"SliderBoardSize_ValueChanged: {e.NewValue}");
-            SettingsViewModel.BoardSize = (int)e.NewValue;
+            get { return SettingsViewModel.BoardSize; }
+            set { SettingsViewModel.BoardSize = (int)value;}
         }
     }
 

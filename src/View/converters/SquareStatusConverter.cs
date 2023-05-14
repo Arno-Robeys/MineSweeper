@@ -17,6 +17,8 @@ namespace View.converters
         public object Flagged { get; set; }
         public object Mine { get; set; }
 
+        public object Covered { get; set; }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is not SquareStatus status)
@@ -27,6 +29,7 @@ namespace View.converters
             return status switch
             {
                 SquareStatus.Flagged => Flagged,
+                SquareStatus.Covered => Covered,
                 SquareStatus.Mine => Mine,
                 _ => DependencyProperty.UnsetValue,
             };
