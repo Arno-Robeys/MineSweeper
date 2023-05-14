@@ -26,8 +26,6 @@ namespace View.screens
         {
             InitializeComponent();
 
-
-            this.DataContext = SettingsViewModel.CreateGame();
         }
     }
 }

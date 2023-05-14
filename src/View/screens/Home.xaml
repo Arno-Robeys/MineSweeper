@@ -6,11 +6,23 @@
              xmlns:local="clr-namespace:View.screens"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel>
-        <Button DockPanel.Dock="Top" Content="Start Custom Game" Command="{Binding Settings}" />
-        <Button DockPanel.Dock="Top" Content="Start Easy Game" Command="{Binding StartEasyGame}" />
-        <Button DockPanel.Dock="Top" Content="Start Medium Game" Command="{Binding StartMediumGame}" />
-        <Button DockPanel.Dock="Top" Content="Start Hard Game" Command="{Binding StartHardGame}" />
-        <TextBlock FontSize="64" Text="Home" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
-    </DockPanel>
+    <Viewbox>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="20">
+                <TextBlock FontSize="48" Text="MineSweeper" />
+                <TextBlock FontSize="16" Text="Made By Arno Robeys"  />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="30">
+                <TextBlock FontSize="24" Text="Choose Difficulty" HorizontalAlignment="Center"/>
+                <Button Content="Start Custom Game" Command="{Binding Settings}" Margin="10"/>
+                <Button Content="Start Easy Game" Command="{Binding StartEasyGame}" Margin="10"/>
+                <Button Content="Start Medium Game" Command="{Binding StartMediumGame}" Margin="10"/>
+                <Button Content="Start Hard Game" Command="{Binding StartHardGame}" Margin="10"/>
+            </StackPanel>
+        </Grid>
+    </Viewbox>
 </UserControl>

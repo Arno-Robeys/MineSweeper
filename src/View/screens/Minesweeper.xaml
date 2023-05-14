@@ -22,9 +22,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Timer" HorizontalAlignment="Center"/>
-            <ItemsControl Grid.Row="1"  ItemsSource="{Binding Board.Rows}">
+            <ItemsControl Grid.Row="1"  ItemsSource="{Binding Game.Board.Rows}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <ItemsControl ItemsSource="{Binding Squares}">
@@ -50,6 +51,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <Button Grid.Row="2" Content="End Game" Margin="5,10,5,2"/>
         </Grid>
     </Viewbox>
 </UserControl>

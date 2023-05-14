@@ -118,6 +118,8 @@ namespace ViewModel
 
         public ICommand Settings { get; }
 
+        public GameViewModel Game { get; } = SettingsViewModel.CreateGame();
+
     }
 
     public class ActionCommand : ICommand

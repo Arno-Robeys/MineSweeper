@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MineSweeper" Height="450" Width="800">
 
-    <ContentControl Content="{Binding CurrentScreen.Value}" HorizontalAlignment="Left" Width="800">
+    <ContentControl Content="{Binding CurrentScreen.Value}" HorizontalAlignment="Stretch">
         <ContentControl.Resources>
             <DataTemplate DataType="{x:Type vm:HomeViewModel}">
                 <screens:Home />
