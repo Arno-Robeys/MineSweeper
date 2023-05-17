@@ -72,7 +72,7 @@ namespace ViewModel
 
         public ICommand StartGame { get; }
 
-        public static int BoardSize { get; set; } = IGame.MinimumBoardSize;
+        public int BoardSize { get; set; } = IGame.MinimumBoardSize;
 
         public bool Flooding { get; set; } = false;
 

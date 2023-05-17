@@ -1,8 +1,5 @@
-﻿using Model.MineSweeper;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using ViewModel;
 
 namespace View.screens
 {
@@ -18,11 +15,6 @@ namespace View.screens
 
         public static readonly DependencyProperty BoardSizeProperty = DependencyProperty.Register("BoardSize", typeof(int), typeof(Settings));
 
-        public static int BoardSize
-        {
-            get { return SettingsViewModel.BoardSize; }
-            set { SettingsViewModel.BoardSize = (int)value;}
-        }
     }
 
     

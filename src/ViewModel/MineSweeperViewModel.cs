@@ -61,6 +61,8 @@ namespace ViewModel
 
         public ICell<int> NeighboringMineCount => Square.Derive(s => s.NeighboringMineCount);
 
+        public ICell<GameStatus> GameStatus;
+
         public ICommand Uncover { get; }
 
         public ICommand ToggleFlag { get; }
@@ -70,6 +72,7 @@ namespace ViewModel
             Square = game.Derive(g => g.Board[pos]);
             Uncover = new UncoverSquareCommand(game, pos);
             ToggleFlag = new UncoverSquareCommand(game, pos, true);
+            GameStatus = game.Derive(g => g.Status);
         }
 
     }
@@ -96,6 +99,7 @@ namespace ViewModel
         {
             Debug.WriteLine($"Uncovering square at {Position}");
             Game.Value = toggleFlag ? Game.Value.ToggleFlag(Position) : Game.Value.UncoverSquare(Position);
+            Debug.WriteLine($"Game status is now {Game.Value.Status}");
         }
     }
 }

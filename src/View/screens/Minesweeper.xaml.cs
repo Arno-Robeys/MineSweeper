@@ -1,19 +1,6 @@
-﻿using Model.MineSweeper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ViewModel;
+using System.Windows.Threading;
 
 namespace View.screens
 {
@@ -22,10 +9,25 @@ namespace View.screens
     /// </summary>
     public partial class Minesweeper : UserControl
     {
+
+        private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private readonly DateTime _gameStartTime = DateTime.Now;
         public Minesweeper()
         {
             InitializeComponent();
 
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += Timer_Tick;
+
+            _timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            TimeSpan elapsedTime = DateTime.Now - _gameStartTime;
+
+            //Tijdelijk, moet aangepast worden naar Bindings
+            timerLabel.Content = elapsedTime.ToString(@"hh\:mm\:ss");
         }
     }
 }

@@ -19,6 +19,7 @@
             </converters:SquareStatusConverter.Covered>
         </converters:SquareStatusConverter>
         <converters:SquareStatusToVisibilityConverter x:Key="squareStatusToTextVisibility"/>
+        <converters:MineCountColorConverter x:Key="mineCountColorConverter" One="Blue" Two="Green" Three="Red" Four="DarkBlue" Five="DarkRed"/>
     </UserControl.Resources>
     <Viewbox>
         <Grid>
@@ -27,7 +28,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Timer" HorizontalAlignment="Center"/>
+            <Label Grid.Row="0" x:Name="timerLabel" Content="00:00:00" HorizontalAlignment="Center" />
             <ItemsControl Grid.Row="1"  ItemsSource="{Binding GameMS.Board.Rows}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -40,7 +41,14 @@
                                         </Button.InputBindings>
                                         <Grid>
                                             <Image Width="40" Height="40" Source="{Binding Status.Value, Converter={StaticResource squareStatusToImage}}"/>
-                                            <TextBlock Text="{Binding NeighboringMineCount.Value}" Visibility="{Binding Status.Value, Converter={StaticResource squareStatusToTextVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding NeighboringMineCount.Value}" Foreground="{Binding NeighboringMineCount.Value, Converter={StaticResource mineCountColorConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock.Visibility>
+                                                    <MultiBinding Converter="{StaticResource squareStatusToTextVisibility}">
+                                                        <Binding Path="Status.Value" />
+                                                        <Binding Path="NeighboringMineCount.Value" />
+                                                    </MultiBinding>
+                                                </TextBlock.Visibility>
+                                            </TextBlock>
                                         </Grid>
                                     </Button>
                                 </DataTemplate>
