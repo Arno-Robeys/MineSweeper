@@ -1,15 +1,9 @@
 ﻿using Model.MineSweeper;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace View.converters
 {
@@ -17,7 +11,6 @@ namespace View.converters
     {
         public object Flagged { get; set; }
         public object Mine { get; set; }
-
         public object Covered { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -46,18 +39,13 @@ public class SquareStatusToVisibilityConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values.Length < 2 || !(values[0] is SquareStatus status) || !(values[1] is int mineCount))
+        if (values.Length < 2 || values[0] is not SquareStatus status || values[1] is not int mineCount)
         {
             return Visibility.Collapsed;
         }
 
-        if (status == SquareStatus.Uncovered && mineCount > 0)
-        {
-            return Visibility.Visible;
+        return status == SquareStatus.Uncovered && mineCount > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
-
-        return Visibility.Collapsed;
-    }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
@@ -93,4 +81,40 @@ public class SquareStatusToVisibilityConverter : IMultiValueConverter
             throw new NotImplementedException();
         }
     }
+
+    public class GameEndConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(parameter is string param && value is GameStatus status)
+            {
+                if(param == "Visibility")
+                {
+                    if (status == GameStatus.Lost || status == GameStatus.Won)
+                    {
+                        return Visibility.Visible;
+                    }
+                    return Visibility.Collapsed;
+
+                } else if(param == "Text")
+                {
+                    return status switch
+                    {
+                        GameStatus.Lost => "Sad, You lost! Try again?",
+                        GameStatus.Won => "Congrats, You won!",
+                        _ => DependencyProperty.UnsetValue,
+                    };
+                }
+            }
+
+            return DependencyProperty.UnsetValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
 }

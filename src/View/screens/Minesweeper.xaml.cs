@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Model.MineSweeper;
+using System;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using ViewModel;
 
 namespace View.screens
 {
@@ -10,24 +13,39 @@ namespace View.screens
     public partial class Minesweeper : UserControl
     {
 
-        private readonly DispatcherTimer _timer = new DispatcherTimer();
-        private readonly DateTime _gameStartTime = DateTime.Now;
+        private readonly DispatcherTimer Timer = new DispatcherTimer();
+        private readonly DateTime GameStartTime = DateTime.Now;
+
         public Minesweeper()
         {
             InitializeComponent();
 
-            _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += Timer_Tick;
+            Timer.Interval = TimeSpan.FromSeconds(1);
+            Timer.Tick += Timer_Tick;
 
-            _timer.Start();
+            Timer.Start();
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            TimeSpan elapsedTime = DateTime.Now - _gameStartTime;
+            TimeSpan elapsedTime = DateTime.Now - GameStartTime;
 
-            //Tijdelijk, moet aangepast worden naar Bindings
+            StopTimer();
+
             timerLabel.Content = elapsedTime.ToString(@"hh\:mm\:ss");
+        }
+
+        private void StopTimer()
+        {
+            MineSweeperViewModel mineSweeperViewModel = (MineSweeperViewModel)DataContext;
+
+            GameStatus gameStatus = mineSweeperViewModel.GameMS.GameStatus.Value;
+
+            if (gameStatus != GameStatus.InProgress)
+            {
+                Timer.Stop();
+            }
         }
     }
 }

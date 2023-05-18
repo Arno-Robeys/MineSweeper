@@ -19,50 +19,74 @@
             </converters:SquareStatusConverter.Covered>
         </converters:SquareStatusConverter>
         <converters:SquareStatusToVisibilityConverter x:Key="squareStatusToTextVisibility"/>
+        <converters:GameEndConverter x:Key="gameEndConverter"/>
         <converters:MineCountColorConverter x:Key="mineCountColorConverter" One="Blue" Two="Green" Three="Red" Four="DarkBlue" Five="DarkRed"/>
     </UserControl.Resources>
-    <Viewbox>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" x:Name="timerLabel" Content="00:00:00" HorizontalAlignment="Center" />
-            <ItemsControl Grid.Row="1"  ItemsSource="{Binding GameMS.Board.Rows}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ItemsControl ItemsSource="{Binding Squares}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Button Command="{Binding Uncover}" BorderThickness="0.2">
-                                        <Button.InputBindings>
-                                            <MouseBinding Gesture="RightClick" Command="{Binding ToggleFlag}"/>
-                                        </Button.InputBindings>
-                                        <Grid>
-                                            <Image Width="40" Height="40" Source="{Binding Status.Value, Converter={StaticResource squareStatusToImage}}"/>
-                                            <TextBlock Text="{Binding NeighboringMineCount.Value}" Foreground="{Binding NeighboringMineCount.Value, Converter={StaticResource mineCountColorConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <TextBlock.Visibility>
-                                                    <MultiBinding Converter="{StaticResource squareStatusToTextVisibility}">
-                                                        <Binding Path="Status.Value" />
-                                                        <Binding Path="NeighboringMineCount.Value" />
-                                                    </MultiBinding>
-                                                </TextBlock.Visibility>
-                                            </TextBlock>
-                                        </Grid>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <Button Grid.Row="2" Content="End Game" Command="{Binding Home}" Margin="5,10,5,2"/>
+            <Viewbox>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                <Label Grid.Row="0" x:Name="timerLabel" Content="00:00:00" HorizontalAlignment="Center" />
+                    <ItemsControl Grid.Row="1"  ItemsSource="{Binding GameMS.Board.Rows}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Squares}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding Uncover}" BorderThickness="0.2">
+                                                <Button.InputBindings>
+                                                    <MouseBinding Gesture="RightClick" Command="{Binding ToggleFlag}"/>
+                                                </Button.InputBindings>
+                                                <Grid>
+                                                    <Image Width="40" Height="40">
+                                                        <Image.Style>
+                                                            <Style TargetType="Image">
+                                                                <Setter Property="Source" Value="{Binding Status.Value, Converter={StaticResource squareStatusToImage}}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding GameLostAndContainsMine.Value}" Value="True">
+                                                                        <Setter Property="Source" Value="/screens/img/bomb.png"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Image.Style>
+                                                    </Image>
+                                                    <TextBlock Text="{Binding NeighboringMineCount.Value}" Foreground="{Binding NeighboringMineCount.Value, Converter={StaticResource mineCountColorConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <TextBlock.Visibility>
+                                                            <MultiBinding Converter="{StaticResource squareStatusToTextVisibility}">
+                                                                <Binding Path="Status.Value" />
+                                                                <Binding Path="NeighboringMineCount.Value" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Visibility>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Grid.Row="2" Content="End Game" Command="{Binding Home}" Margin="5,10,5,2"/>
+                </Grid>
+            </Viewbox>
+            <Border Background="#CCFFFFFF" Visibility="{Binding GameMS.GameStatus.Value, Converter={StaticResource gameEndConverter}, ConverterParameter=Visibility}">
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock FontSize="24" FontWeight="DemiBold" Text="{Binding GameMS.GameStatus.Value, Converter={StaticResource gameEndConverter}, ConverterParameter=Text}"/>
+                    <Button Grid.Row="1" Content="Start New Game" Command="{Binding Home}" Margin="5,10,5,2" FontSize="20"  Padding="10,5"/>
+                </Grid>
+            </Border>
         </Grid>
-    </Viewbox>
 </UserControl>

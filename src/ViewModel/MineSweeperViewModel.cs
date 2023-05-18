@@ -1,7 +1,6 @@
 ﻿using Cells;
 using Model.Data;
 using Model.MineSweeper;
-using System.Diagnostics;
 using System.Windows.Input;
 
 namespace ViewModel
@@ -10,6 +9,8 @@ namespace ViewModel
     {
 
         private readonly ICell<IGame> game;
+
+        public ICell<GameStatus> GameStatus => game.Derive(g => g.Status);
 
         public GameBoardViewModel Board { get; }
 
@@ -35,8 +36,6 @@ namespace ViewModel
 
         private static IEnumerable<RowViewModel> GetRows(ICell<IGameBoard> board, ICell<IGame> game)
         {
-            //Maakt een lijst van rijen van het bord en gaat voor elke rij het juiste square object van bord komen opvragen
-            //De .Select geeft een IEnumerable van Square terug
             return Enumerable.Range(0, board.Value.Height).Select(y => 
                 new RowViewModel(Enumerable.Range(0, board.Value.Width).Select(x =>
                 {
@@ -61,7 +60,7 @@ namespace ViewModel
 
         public ICell<int> NeighboringMineCount => Square.Derive(s => s.NeighboringMineCount);
 
-        public ICell<GameStatus> GameStatus;
+        public ICell<bool> GameLostAndContainsMine { get; }
 
         public ICommand Uncover { get; }
 
@@ -71,35 +70,54 @@ namespace ViewModel
         {
             Square = game.Derive(g => g.Board[pos]);
             Uncover = new UncoverSquareCommand(game, pos);
-            ToggleFlag = new UncoverSquareCommand(game, pos, true);
-            GameStatus = game.Derive(g => g.Status);
+            ToggleFlag = new ToggleFlagCommand(game, pos);
+
+            GameLostAndContainsMine = game.Derive(g => g.Status == GameStatus.Lost && g.Mines.Contains(pos));
         }
 
     }
 
     public class UncoverSquareCommand : ICommand
     {
-        private readonly bool toggleFlag;
         public ICell<IGame> Game { get; }
         public Vector2D Position { get; }
-        public UncoverSquareCommand(ICell<IGame> game, Vector2D pos, bool toggleFlag = false)
+        public UncoverSquareCommand(ICell<IGame> game, Vector2D pos)
         {
             Game = game;
             Position = pos;
-            this.toggleFlag = toggleFlag;
         }
         public event EventHandler? CanExecuteChanged;
 
         public bool CanExecute(object? parameter)
         {
-            return Game.Value.Status == GameStatus.InProgress && Game.Value.IsSquareCovered(Position) && (!Game.Value.Flags.Contains(Position) || toggleFlag);
+            return Game.Value.Status == GameStatus.InProgress && Game.Value.IsSquareCovered(Position) && (!Game.Value.Flags.Contains(Position));
         }
 
         public void Execute(object? parameter)
         {
-            Debug.WriteLine($"Uncovering square at {Position}");
-            Game.Value = toggleFlag ? Game.Value.ToggleFlag(Position) : Game.Value.UncoverSquare(Position);
-            Debug.WriteLine($"Game status is now {Game.Value.Status}");
+            Game.Value = Game.Value.UncoverSquare(Position);
+        }
+    }
+
+    public class ToggleFlagCommand : ICommand
+    {
+        public ICell<IGame> Game { get; }
+        public Vector2D Position { get; }
+        public ToggleFlagCommand(ICell<IGame> game, Vector2D pos)
+        {
+            Game = game;
+            Position = pos;
+        }
+        public event EventHandler? CanExecuteChanged;
+
+        public bool CanExecute(object? parameter)
+        {
+            return Game.Value.Status == GameStatus.InProgress && Game.Value.IsSquareCovered(Position);
+        }
+
+        public void Execute(object? parameter)
+        {
+            Game.Value = Game.Value.ToggleFlag(Position);
         }
     }
 }

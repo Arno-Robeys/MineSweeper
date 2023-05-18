@@ -14,6 +14,7 @@ namespace View.screens
         }
 
         public static readonly DependencyProperty BoardSizeProperty = DependencyProperty.Register("BoardSize", typeof(int), typeof(Settings));
+        public static readonly DependencyProperty MineProbabilityProperty = DependencyProperty.Register("MineProbability", typeof(int), typeof(Settings));
 
     }
 

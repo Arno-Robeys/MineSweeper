@@ -1,5 +1,6 @@
 ﻿using Cells;
 using Model.MineSweeper;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace ViewModel
@@ -37,17 +38,17 @@ namespace ViewModel
 
             StartEasyGame = new ActionCommand(() =>
             {
-                CurrentScreen.Value = new MineSweeperViewModel(screen, 5, true);
+                CurrentScreen.Value = new MineSweeperViewModel(screen, 5, true, 0.1);
             });
 
             StartMediumGame = new ActionCommand(() =>
             {
-                CurrentScreen.Value = new MineSweeperViewModel(screen, 10, true);
+                CurrentScreen.Value = new MineSweeperViewModel(screen, 10, true, 0.15);
             });
 
             StartHardGame = new ActionCommand(() =>
             {
-                CurrentScreen.Value = new MineSweeperViewModel(screen, 20, false);
+                CurrentScreen.Value = new MineSweeperViewModel(screen, 20, false, 0.20);
             });
         }
 
@@ -66,7 +67,7 @@ namespace ViewModel
         {
             Home = new ActionCommand(() => CurrentScreen.Value = new HomeViewModel(screen));
 
-            StartGame = new ActionCommand(() => CurrentScreen.Value = new MineSweeperViewModel(screen, BoardSize, Flooding));
+            StartGame = new ActionCommand(() => CurrentScreen.Value = new MineSweeperViewModel(screen, BoardSize, Flooding, MineProbability));
         }
         public ICommand Home { get; }
 
@@ -75,6 +76,8 @@ namespace ViewModel
         public int BoardSize { get; set; } = IGame.MinimumBoardSize;
 
         public bool Flooding { get; set; } = false;
+
+        public double MineProbability { get; set; } = 0.1;
 
         public static int MinimumSize
         {
@@ -96,10 +99,10 @@ namespace ViewModel
 
     public class MineSweeperViewModel : ScreenViewModel
     {
-        public MineSweeperViewModel(ICell<ScreenViewModel> screen, int boardSize, bool flooding) : base(screen)
+        public MineSweeperViewModel(ICell<ScreenViewModel> screen, int boardSize, bool flooding, double mineProbability) : base(screen)
         {
 
-            GameMS = new GameViewModel(IGame.CreateRandom(boardSize, 0.1, flooding));
+            GameMS = new GameViewModel(IGame.CreateRandom(boardSize, mineProbability, flooding));
 
             Home = new ActionCommand(() => CurrentScreen.Value = new HomeViewModel(screen));
 

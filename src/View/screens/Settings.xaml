@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -18,9 +19,14 @@
             <Slider Name="SliderBoardSize" Minimum="{Binding MinimumSize}" Maximum="{Binding MaximumSize}" TickFrequency="1" Value="{Binding BoardSize, Mode=TwoWay}" IsSnapToTickEnabled="True" Width="650" Margin="10,0,0,0"/>
             <TextBlock Text="{Binding Value, ElementName=SliderBoardSize}"/>
         </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Mine Probability %:" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Slider Name="MineProbability" Minimum="0" Maximum="1" TickFrequency="0.01" Value="{Binding MineProbability, Mode=TwoWay}" IsSnapToTickEnabled="True" Width="600" Margin="10,0,0,0"/>
+            <TextBlock Text="{Binding Value, ElementName=MineProbability, StringFormat={}{0:P0}}"/>
+        </StackPanel>
         <CheckBox Grid.Row="2" IsChecked="{Binding Flooding}" Content="Enable Flooding" FontSize="16" Margin="0,0,0,10"/>
 
-        <Button Grid.Row="4" Content="Start Game" FontSize="20" FontWeight="Bold" Background="#2196F3" Foreground="White" Command="{Binding StartGame}" Padding="20,10" Margin="80,180,80,54"/>
+        <Button Grid.Row="3" Content="Start Game" FontSize="20" FontWeight="Bold" Background="#2196F3" Foreground="White" Command="{Binding StartGame}" Padding="20,10" Margin="80,180,80,54"/>
     </Grid>
 
 </UserControl>
