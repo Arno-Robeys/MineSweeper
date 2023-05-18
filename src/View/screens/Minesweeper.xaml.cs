@@ -13,7 +13,7 @@ namespace View.screens
     public partial class Minesweeper : UserControl
     {
 
-        private readonly DispatcherTimer Timer = new DispatcherTimer();
+        private readonly DispatcherTimer Timer = new();
         private readonly DateTime GameStartTime = DateTime.Now;
 
         public Minesweeper()
@@ -27,7 +27,7 @@ namespace View.screens
 
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object? sender, EventArgs e)
         {
             TimeSpan elapsedTime = DateTime.Now - GameStartTime;
 

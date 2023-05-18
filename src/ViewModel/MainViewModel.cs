@@ -127,8 +127,9 @@ namespace ViewModel
 
         public event EventHandler? CanExecuteChanged;
 
-        public bool CanExecute(object parameter) => true;
+        public bool CanExecute(object? parameter) => true;
 
-        public void Execute(object parameter) => this.action();
+        public void Execute(object? parameter) => this.action();
+
     }
 }
