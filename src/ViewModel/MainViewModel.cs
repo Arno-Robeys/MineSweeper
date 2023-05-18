@@ -125,16 +125,10 @@ namespace ViewModel
             this.action = action;
         }
 
-        public event EventHandler CanExecuteChanged { add { } remove { } }
+        public event EventHandler? CanExecuteChanged;
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
+        public bool CanExecute(object parameter) => true;
 
-        public void Execute(object parameter)
-        {
-            this.action();
-        }
+        public void Execute(object parameter) => this.action();
     }
 }
