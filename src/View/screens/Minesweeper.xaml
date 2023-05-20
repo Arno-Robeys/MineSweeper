@@ -30,7 +30,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                <Label Grid.Row="0" x:Name="timerLabel" Content="00:00:00" HorizontalAlignment="Center"/>
+                <Label Grid.Row="0" x:Name="timerLabel" Content="{Binding Timer.Value}" ContentStringFormat="{}{0:mm}:{0:ss}" HorizontalAlignment="Center"/>
                 <ItemsControl Grid.Row="1"  ItemsSource="{Binding GameMS.Board.Rows}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>

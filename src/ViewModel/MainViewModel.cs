@@ -1,6 +1,6 @@
 ﻿using Cells;
 using Model.MineSweeper;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace ViewModel
@@ -101,6 +101,9 @@ namespace ViewModel
     {
         public MineSweeperViewModel(ICell<ScreenViewModel> screen, int boardSize, bool flooding, double mineProbability) : base(screen)
         {
+            timer.Interval = 1000;
+            timer.Elapsed += Timer_Tick;
+            timer.Start();
 
             GameMS = new GameViewModel(IGame.CreateRandom(boardSize, mineProbability, flooding));
 
@@ -108,11 +111,23 @@ namespace ViewModel
 
             Settings = new ActionCommand(() => CurrentScreen.Value = new SettingsViewModel(screen));
         }
+        
         public ICommand Home { get; }
 
         public ICommand Settings { get; }
 
         public GameViewModel GameMS { get; }
+        public ICell<TimeSpan> Timer { get; } = Cell.Create(TimeSpan.Zero);
+
+        private System.Timers.Timer timer = new();
+
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            if(GameMS.GameStatus.Value != GameStatus.InProgress)
+            {
+                timer.Stop();
+            } else Timer.Value = Timer.Value.Add(TimeSpan.FromSeconds(1));
+        }
 
     }
 
