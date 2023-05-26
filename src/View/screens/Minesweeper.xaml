@@ -47,10 +47,13 @@
                                                             <Style TargetType="Image">
                                                                 <Setter Property="Source" Value="{Binding Status.Value, Converter={StaticResource squareStatusToImage}}"/>
                                                                 <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding GameLostAndContainsMine.Value}" Value="True">
+                                                                    <DataTrigger Binding="{Binding GameOverAndContainsMine.Value}" Value="Lost">
                                                                         <Setter Property="Source" Value="/screens/img/bomb.png"/>
                                                                     </DataTrigger>
-                                                                </Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding GameOverAndContainsMine.Value}" Value="Won">
+                                                                        <Setter Property="Source" Value="/screens/img/flag.png"/>
+                                                                    </DataTrigger>
+                                                            </Style.Triggers>
                                                             </Style>
                                                         </Image.Style>
                                                     </Image>

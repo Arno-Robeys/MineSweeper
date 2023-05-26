@@ -60,7 +60,7 @@ namespace ViewModel
 
         public ICell<int> NeighboringMineCount => Square.Derive(s => s.NeighboringMineCount);
 
-        public ICell<bool> GameLostAndContainsMine { get; }
+        public ICell<string> GameOverAndContainsMine { get; }
 
         public ICommand Uncover { get; }
 
@@ -72,7 +72,16 @@ namespace ViewModel
             Uncover = new UncoverSquareCommand(game, pos);
             ToggleFlag = new ToggleFlagCommand(game, pos);
 
-            GameLostAndContainsMine = game.Derive(g => g.Status == GameStatus.Lost && g.Mines.Contains(pos));
+            GameOverAndContainsMine = game.Derive(g =>
+            {
+                if (g.Status == GameStatus.Lost && g.Mines.Contains(pos))
+                    return "Lost";
+                else if (g.Status == GameStatus.Won && g.Mines.Contains(pos))
+                    return "Won";
+                else
+                    return "NVT";
+            });
+
         }
 
     }
