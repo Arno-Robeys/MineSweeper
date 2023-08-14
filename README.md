@@ -1,3 +1,3 @@
-# MineSweeper Project
+# MineSweeper
 
-Toledo contains a link to the compiled version of the guide.
+MineSweeper game writen in C# as a project for school
